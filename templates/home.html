@@ -1,0 +1,311 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- <meta name="google-site-verification" content="SouBQwD-vjayqmjz-ohaEt6C0UI-hraX1AfZzaCPrjU" /> -->
+
+  <title>Formants Guide</title>
+
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/grey_darker2.css' %}" rel="stylesheet">
+  <link href="{% static 'css/formantsguide.css' %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/grey-audio-player.css' %}" />
+  <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet"> -->
+</head>
+
+<body>
+  <div id="vue_wrapper" v-cloak>
+
+    <!-- Navigation menu-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary static-top">
+      <div class="container">
+        <span class="navbar-text" style="color: #ffffff; font-size: 1.2em; padding: 0px;">
+          Formants Guide
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#about_modal">About</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#contact_modal">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Navigation menu modals -->
+    <div class="modal fade" id="about_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Formants Guide</p>
+            <p>Ver. 0.1</p>
+            <p>October 2023</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="contact_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Łukasz Stolarski</p>
+            <p>lukasz.stolarski@ujk.edu.pl</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12" style="height:2em;"></div>
+
+    <!-- Main content -->
+    <div class="formantsguide_container">
+
+      <!-- Welcome info -->
+      <div class="row">
+        <div class="col text-center d-flex justify-content-center">
+          <div class="card card-block d-flex shadow" style="max-width: 1000px;">
+            <div class="card-body align-items-center">
+              <p class="card-text">Welcome to Formants Guide,
+                a site which helps you with estimating formant values of vowel articulation.
+                Once you have measured formants in an acoustic analysis software such as <i>Praat</i>,
+                you can compare the measurements with the values in different regions of the IPA Vowel Diagram.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <!-- Settings -->
+      <div class="row justify-content-center">
+        <div class="col text-center justify-content-center">
+          <!-- you can also format this card using the same formatting as for the info card... -->
+          <div class="card shadow mx-auto" style="max-width: 50rem;">
+            <div class="card-body">
+              <p class="card-text">Settings:</p>
+              <form id="userform" v-on:submit.prevent="">
+                {% csrf_token %}
+                <br>
+                <div class="row justify-content-center">
+                  <div class="col text-center justify-content-center">
+                    <div class="form-group text-left">
+                      <label for="group">Speaker Groups:</label>
+                      <!-- <div class="custom-control custom-radio">
+                        <input checked type="radio" id="allPhoneticiansRadio" name="phonetician_group" value="allPhoneticians"
+                          class="custom-control-input" v-on:click="hidePhoneticiansList">
+                        <label class="custom-control-label" for="allPhoneticiansRadio">All Phoneticians</label>
+                      </div> -->
+                      <div class="custom-control custom-radio">
+                        <input checked type="radio" id="malePhoneticiansRadio" name="phonetician_group" value="male" class="custom-control-input"
+                          v-on:click="hidePhoneticiansList">
+                        <label class="custom-control-label" for="malePhoneticiansRadio">Male</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="femalePhoneticiansRadio" name="phonetician_group" value="female" class="custom-control-input"
+                          v-on:click="hidePhoneticiansList">
+                        <label class="custom-control-label" for="femalePhoneticiansRadio">Female</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="selectedPhoneticiansRadio" name="phonetician_group" value="selected"
+                          class="custom-control-input" v-on:click="showPhoneticiansList">
+                        <label class="custom-control-label" for="selectedPhoneticiansRadio">Selected</label>
+                      </div>
+                    </div>
+
+                    <div class="form-group text-left" v-if="phoneticiansList">
+                      <label for="phoneticians">Phoneticians:</label>
+                      <select multiple class="custom-select form-control" size="5" id="phoneticians"
+                        name="phoneticians">
+                        <option>Bruce Hayes (male)</option>
+                        <option selected>Daniel Jones (male)</option>
+                        <option>Dan Lenard (male)</option>
+                        <option>David Madore (male)</option>
+                        <option>Iza (female)</option>
+                        <option>Jil House (female)</option>
+                        <option>John Wells (male)</option>
+                        <option>Jonathan Dowse (male)</option>
+                        <option>Jürgen Handke (male)</option>
+                        <option>Łukasz Stolarski (male)</option>
+                        <option>"Macquire University" (male)</option>
+                        <option>Magda (female)</option>
+                        <option>Ola Matysiak (female)</option>
+                        <option>Peter Ladefoged 1 (male)</option>
+                        <option>Peter Ladefoged 2 (male)</option>
+                        <option>"The University of Sheffield" (male)</option>
+                        <option>"The University of Sheffield" (female)</option>
+                        <option>"University of Victoria" (male)</option>
+                        <option>"Wikipedia" (male)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col text-center justify-content-center">
+                    <div class="form-group text-left">
+                      <label for="graphType">Graph Types:</label>
+                      <div class="custom-control custom-checkbox">
+                        <input checked type="checkbox" class="custom-control-input" id="formantsCheck" name="formantsCheck">
+                        <label class="custom-control-label" for="formantsCheck">Formants</label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="spectrogramCheck" name="spectrogramCheck">
+                        <label class="custom-control-label" for="spectrogramCheck">Spectrogram</label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="spectralSliceCheck" name="spectralSliceCheck">
+                        <label class="custom-control-label" for="spectralSliceCheck">Spectral Slice</label>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+
+    <!-- This part is for testing the position of vowel areas -->
+    <!-- <div class="row">
+        <div class="col text-center d-flex justify-content-center">
+          <div>position ${ x }$ ${ y }$</div>
+        </div>
+      </div> -->
+
+    <!-- Vowel Quadrilateral -->
+    <div class="row">
+      <div class="col text-center d-flex justify-content-center">
+        <div class="image-container">
+          <img src="/static/img/IPA_vowel_diagram.jpg" width="1000" height="750" usemap="#vowelsmap"
+            v-on:mousemove="showCoordinates">
+          </img>
+          <!-- In the future, change all absolute values to relative percent values -->
+          <div class="vowel_area" id="CV1" style="left:0%; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_spectrogram">
+          </div>
+          <div class="vowel_area" id="CV09" style="left:87px; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV17" style="left:422px; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV18" style="left:510px; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV16" style="left:817px; top:0.5%; width:70px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV08" style="left:935px; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV19" style="left:186px; top:113px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV20" style="left:251px; top:113px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV21" style="left:739px; top:113px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV02" style="left:130px; top:226px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV10" style="left:230px; top:226px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV22" style="left:485px; top:226px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV23" style="left:581px; top:226px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV15" style="left:833px; top:226px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV07" style="left:935px; top:226px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV24" style="left:565px; top:336px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV03" style="left:272px; top:445px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV11" style="left:370px; top:445px; width:80px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV25" style="left:555px; top:445px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV26" style="left:651px; top:445px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV14" style="left:839px; top:445px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV06" style="left:935px; top:445px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV27" style="left:335px; top:568px; width:70px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV28" style="left:638px; top:552px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV04" style="left:422px; top:669px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV12" style="left:517px; top:669px; width:75px" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV05" style="left:839px; top:669px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+          <div class="vowel_area" id="CV13" style="left:935px; top:669px;" href="#" data-toggle="modal"
+            data-target="#results_modal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graphs modal -->
+  <div class="modal fade" id="results_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>This modal will display results</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12" style="height:2em;"></div>
+  <div class="col-xs-12" style="height:2em;"></div>
+
+  <!-- main formantsguide script -->
+  <script type="module" src="{% static 'js/formantsguide.js' %}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'jquery/jquery.slim.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Vue JS-->
+  <script src="https://unpkg.com/vue@3.2.33/dist/vue.global.prod.js"></script>
+  <!-- formantsguide Vue scripts -->
+  <script type="module" src="{% static 'js/formantsguide-vue-main.js' %}"></script>
+  <!-- Additional scripts -->
+  <!-- <script src="{% static 'js/layeredCanvas.js' %}"></script> -->
+  <!-- <script src="{% static 'js/grey-audio-player.js' %}"></script> -->
+
+  </div>
+</body>
+
+</html>

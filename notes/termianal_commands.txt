@@ -1,0 +1,17 @@
+Main:
+
+source /home/luke/environments/env_formantsguide/bin/activate
+
+cd "/media/luke/WORK/Programming/Projects/formantsguide/"
+
+python3 manage.py runserver
+
+
+Additional:
+pip freeze --local > requirements.txt
+pip install -r requirements.txt
+
+
+
+
+
