@@ -13,18 +13,9 @@ def create_spectrogram(request: HttpRequest):
     # User data
     ###########
     gender = request.GET.get("phonetician_group")
-    print(gender)
-    cardinal_vowel_str = request.GET.get("cardinal_vowel")[2:]
-    print(cardinal_vowel_str)
+    # print(gender)
+    cardinal_vowel_int = int(request.GET.get("cardinal_vowel")[2:])
     # userform_gender = request.GET.getlist("userform_gender")
-    # userform_age = request.GET.getlist("userform_age")
-    # userform_education = request.GET.getlist("userform_education")
-    # userform_proficiency = request.GET.getlist("userform_proficiency")
-    # userform_concordance_window_size = int(request.GET.get("userform_concordance_window_size"))
-
-    print("django responds")
-    # gender = "male"
-    # cardinal_vowel_int = 9
     window_length = "broadband"
     # low contrast - low dynamic_range (30) and low db_coeff (5)
     # high contrast - high dynamic_range (70) and high db_coeff (10)
@@ -32,7 +23,7 @@ def create_spectrogram(request: HttpRequest):
     dynamic_range = 30
     # the lower the darker
     db_coeff = 7
-    save = True
+    save = False
     save_folder = BASE_DIR + "/media/spectrograms/"
     title = False
 
@@ -40,10 +31,10 @@ def create_spectrogram(request: HttpRequest):
     time_stamp = time_stamp.replace(' ', '_')
 
 
-    # if cardinal_vowel_int < 10:
-    #     cardinal_vowel_str = "0" + str(cardinal_vowel_int)
-    # else:
-    #     cardinal_vowel_str = str(cardinal_vowel_int)
+    if cardinal_vowel_int < 10:
+        cardinal_vowel_str = "0" + str(cardinal_vowel_int)
+    else:
+        cardinal_vowel_str = str(cardinal_vowel_int)
     save_name = cardinal_vowel_str + "_" + gender + "_" + "dynrange" + str(dynamic_range) + "_" + "dbcoeff" + str(db_coeff) + "_" + time_stamp
     if gender == "male":
         audio_folder_name = "/media/luke/WORK/Current Projects/cardinal_vowels_for_analysis_m/"

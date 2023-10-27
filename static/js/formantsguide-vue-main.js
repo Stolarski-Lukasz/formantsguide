@@ -10,7 +10,8 @@ const vue_app = Vue.createApp({
       results: false,
       x: 0,
       y: 0,
-      phoneticiansList: false
+      phoneticiansList: false,
+      spectrogramButton: true
     }
   },
   delimiters: ["${", "}$"],
@@ -19,28 +20,71 @@ const vue_app = Vue.createApp({
       this.x = event.offsetX
       this.y = event.offsetY
     },
-    showPhoneticiansList(event) {
-      this.phoneticiansList = true
-      console.log("clicked")
+    enablePhoneticiansList(event) {
+      var phoneticians = document.getElementById("phoneticians")
+      phoneticians.disabled = false
+
+      // Iterate through all the options and deselect them
+      var options = phoneticians.options;
+      for (var i = 0; i < options.length; i++) {
+        options[i].selected = false;
+      }
+      var danielJones = document.getElementById("daniel-jones")
+      danielJones.selected = true
     },
-    hidePhoneticiansList(event) {
-      this.phoneticiansList = false
-      console.log("clicked")
+    disablePhoneticiansList(event) {
+      var phoneticians = document.getElementById("phoneticians")
+      phoneticians.disabled = true
+
+      var options = phoneticians.options;
+      for (var i = 0; i < options.length; i++) {
+        if (event.target.id == "male-phoneticians-radio") {
+          if (options[i].className == "male") {
+            options[i].selected = true
+          } else {
+            options[i].selected = false
+          }
+        } else if (event.target.id == "female-phoneticians-radio") {
+          if (options[i].className == "female") {
+            options[i].selected = true
+          } else {
+            options[i].selected = false
+          }
+        }
+      }
     },
-    create_spectrogram(event){
+    enableWindowLengthInput(event) {
+      var windowLengthInput = document.getElementById("window-length-input")
+      windowLengthInput.disabled = false
+    },
+    disableWindowLengthInput(event) {
+      var windowLengthInput = document.getElementById("window-length-input")
+      windowLengthInput.disabled = true
+      if (event.target.id == "broadband-radio") {
+        windowLengthInput.value = "0.005"
+      } else if (event.target.id == "narrowband-radio") {
+        windowLengthInput.value = "0.03"
+      }
+    },
+    create_figure(event) {
+      // getting data
       const user_form = document.querySelector('#userform');
-      const request = new XMLHttpRequest();
-      
-      console.log("here")
       const cardinal_vowel = event.target.id
-
-
       const formData = new FormData(user_form);
       console.log(formData)
       formData.append("cardinal_vowel", cardinal_vowel)
       let params = new URLSearchParams(formData);
 
-      console.log(params)
+      if (formData.get("formantsCheck")) {
+        console.log("formantsCheck registed")
+      }
+      // else if ()
+
+
+
+      const request = new XMLHttpRequest();
+
+
       // params = params + "&cardinal_vowel=" + cardinal_vowel
       // console.log(params)
       // request.open('GET', '/search/?' + params.toString());

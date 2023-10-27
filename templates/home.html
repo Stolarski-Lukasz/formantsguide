@@ -107,82 +107,168 @@
       <div class="row justify-content-center">
         <div class="col text-center justify-content-center">
           <!-- you can also format this card using the same formatting as for the info card... -->
-          <div class="card shadow mx-auto" style="max-width: 50rem;">
+          <!-- <div class="card shadow mx-auto" style="max-width: 60rem;"> -->
+          <div class="card shadow mx-auto" style="max-width: 1000px">
             <div class="card-body">
-              <p class="card-text">Settings:</p>
+              <h3 class="card-text">Settings</h3>
               <form id="userform" v-on:submit.prevent="">
                 {% csrf_token %}
                 <br>
                 <div class="row justify-content-center">
-                  <div class="col text-center justify-content-center">
-                    <div class="form-group text-left">
-                      <label for="group">Speaker Groups:</label>
-                      <!-- <div class="custom-control custom-radio">
-                        <input checked type="radio" id="allPhoneticiansRadio" name="phonetician_group" value="allPhoneticians"
-                          class="custom-control-input" v-on:click="hidePhoneticiansList">
-                        <label class="custom-control-label" for="allPhoneticiansRadio">All Phoneticians</label>
-                      </div> -->
-                      <div class="custom-control custom-radio">
-                        <input checked type="radio" id="malePhoneticiansRadio" name="phonetician_group" value="male" class="custom-control-input"
-                          v-on:click="hidePhoneticiansList">
-                        <label class="custom-control-label" for="malePhoneticiansRadio">Male</label>
-                      </div>
-                      <div class="custom-control custom-radio">
-                        <input type="radio" id="femalePhoneticiansRadio" name="phonetician_group" value="female" class="custom-control-input"
-                          v-on:click="hidePhoneticiansList">
-                        <label class="custom-control-label" for="femalePhoneticiansRadio">Female</label>
-                      </div>
-                      <div class="custom-control custom-radio">
-                        <input type="radio" id="selectedPhoneticiansRadio" name="phonetician_group" value="selected"
-                          class="custom-control-input" v-on:click="showPhoneticiansList">
-                        <label class="custom-control-label" for="selectedPhoneticiansRadio">Selected</label>
-                      </div>
-                    </div>
+                  <div class="col-md text-center justify-content-center">
+                    <div class="card shadow-sm fg-settings-card">
+                      <div class="card-body">
+                        <h5>Phonetician Group</h5>
+                        <br>
+                        <div class="form-group text-left">
+                          <!-- <label for="group">Speaker Group:</label> -->
+                          <div class="custom-control custom-radio">
+                            <input checked type="radio" id="male-phoneticians-radio" name="phonetician-group" value="male"
+                              class="custom-control-input" v-on:click="disablePhoneticiansList">
+                            <label class="custom-control-label" for="male-phoneticians-radio">Male</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="female-phoneticians-radio" name="phonetician-group" value="female"
+                              class="custom-control-input" v-on:click="disablePhoneticiansList">
+                            <label class="custom-control-label" for="female-phoneticians-radio">Female</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="selected-phoneticians-radio" name="phonetician-group" value="selected"
+                              class="custom-control-input" v-on:click="enablePhoneticiansList">
+                            <label class="custom-control-label" for="selected-phoneticians-radio">Selected</label>
+                          </div>
+                        </div>
 
-                    <div class="form-group text-left" v-if="phoneticiansList">
-                      <label for="phoneticians">Phoneticians:</label>
-                      <select multiple class="custom-select form-control" size="5" id="phoneticians"
-                        name="phoneticians">
-                        <option>Bruce Hayes (male)</option>
-                        <option selected>Daniel Jones (male)</option>
-                        <option>Dan Lenard (male)</option>
-                        <option>David Madore (male)</option>
-                        <option>Iza (female)</option>
-                        <option>Jil House (female)</option>
-                        <option>John Wells (male)</option>
-                        <option>Jonathan Dowse (male)</option>
-                        <option>Jürgen Handke (male)</option>
-                        <option>Łukasz Stolarski (male)</option>
-                        <option>"Macquire University" (male)</option>
-                        <option>Magda (female)</option>
-                        <option>Ola Matysiak (female)</option>
-                        <option>Peter Ladefoged 1 (male)</option>
-                        <option>Peter Ladefoged 2 (male)</option>
-                        <option>"The University of Sheffield" (male)</option>
-                        <option>"The University of Sheffield" (female)</option>
-                        <option>"University of Victoria" (male)</option>
-                        <option>"Wikipedia" (male)</option>
-                      </select>
+                        <!-- <div class="form-group text-left" v-if="phoneticiansList"> -->
+                        <div class="form-group text-left">
+                          <label for="phoneticians">Phoneticians:</label>
+                          <select disabled multiple class="custom-select form-control" size="7" id="phoneticians"
+                            name="phoneticians">
+                            <option class="male" selected>Bruce Hayes (male)</option>
+                            <option class="male" id="daniel-jones" selected>Daniel Jones (male)</option>
+                            <option class="male" selected>Dan Lenard (male)</option>
+                            <option class="male" selected>David Madore (male)</option>
+                            <option class="female">Iza (female)</option>
+                            <option class="female">Jil House (female)</option>
+                            <option class="male" selected>John Wells (male)</option>
+                            <option class="male" selected>Jonathan Dowse (male)</option>
+                            <option class="male" selected>Jürgen Handke (male)</option>
+                            <option class="male" selected>Łukasz Stolarski (male)</option>
+                            <option class="male" selected>"Macquire University" (male)</option>
+                            <option class="female">Magda (female)</option>
+                            <option class="female">Ola Matysiak (female)</option>
+                            <option class="male" selected>Peter Ladefoged 1 (male)</option>
+                            <option class="male" selected>Peter Ladefoged 2 (male)</option>
+                            <option class="male" selected>"The University of Sheffield" (male)</option>
+                            <option class="female">"The University of Sheffield" (female)</option>
+                            <option class="male" selected>"University of Victoria" (male)</option>
+                            <option class="male" selected>"Wikipedia" (male)</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
                   <div class="col text-center justify-content-center">
-                    <div class="form-group text-left">
-                      <label for="graphType">Graph Types:</label>
-                      <div class="custom-control custom-checkbox">
-                        <input checked type="checkbox" class="custom-control-input" id="formantsCheck" name="formantsCheck">
-                        <label class="custom-control-label" for="formantsCheck">Formants</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="spectrogramCheck" name="spectrogramCheck">
-                        <label class="custom-control-label" for="spectrogramCheck">Spectrogram</label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="spectralSliceCheck" name="spectralSliceCheck">
-                        <label class="custom-control-label" for="spectralSliceCheck">Spectral Slice</label>
+                    <div class="card shadow-sm fg-settings-card">
+                      <div class="card-body">
+                        <!-- <p class="card-text">General Graph Settings: <br> (affect both spectrograms and spectral slices)</p> -->
+                        <h5>General Graph Settings <br> (affect both spectrograms and spectral slices)</h5>
+                        <br>
+                        <div class="form-group text-left">
+                          <label for="general_graph_settings">Window Length:</label>
+                          <div class="custom-control custom-radio">
+                            <input checked type="radio" id="broadband-radio" name="window-length" value="broadband"
+                              class="custom-control-input" v-on:click="disableWindowLengthInput">
+                            <label class="custom-control-label" for="broadband-radio">Broadband</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="narrowband-radio" name="window-length" value="narrowband"
+                              class="custom-control-input" v-on:click="disableWindowLengthInput">
+                            <label class="custom-control-label" for="narrowband-radio">Narrowband</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="customband-radio" name="window-length" value="custom"
+                              class="custom-control-input" v-on:click="enableWindowLengthInput">
+                            <label class="custom-control-label" for="customband-radio">Custom</label>
+                          </div>
+                          <div class="col-xs-12" style="height:0.75em;"></div>
+                          <input disabled class="form-control" id="window-length-input" type="text" value="0.005" size="5"
+                            style="max-width: 5rem">
+                          <div class="col-xs-12" style="height:1.5em;"></div>
+                          <div class="custom-control custom-checkbox">
+                            <input checked type="checkbox" class="custom-control-input" id="showFormantsCheck"
+                              name="showFormantsCheck">
+                            <label class="custom-control-label" for="showFormantsCheck">Show Formants</label>
+                          </div>
+                          <div class="custom-control custom-checkbox">
+                            <input checked type="checkbox" class="custom-control-input" id="addTitleCheck"
+                              name="addTitleCheck">
+                            <label class="custom-control-label" for="addTitleCheck">Add Title</label>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  <div class="col text-center justify-content-center">
+                    <div class="card shadow-sm fg-settings-card">
+                      <div class="card-body">
+                        <!-- <p class="card-text">Additional Spectrogram Settings:</p> -->
+                        <h5>Additional Spectrogram Settings</h5>
+                        <br>
+                        <div class="form-group text-left">
+                          <label for="exampleInputEmail1">Dynamic Range (dB):</label>
+                          <input class="form-control" type="text" value="50" size="5"
+                            style="max-width: 5rem">
+                        </div>
+                        <div class="form-group text-left">
+                          <label for="exampleInputEmail1">dB coefficient:</label>
+                          <input class="form-control" type="text" value="10" size="5"
+                            style="max-width: 5rem">
+                        </div>
+
+
+
+
+                        <div class="form-group text-left">
+                          <label for="spectrogram_colour_scheme">Colour Scheme:</label>
+                          <div class="custom-control custom-radio">
+                            <input checked type="radio" id="blackOnWhite" name="colourScheme" value="blackOnWhite"
+                              class="custom-control-input">
+                            <label class="custom-control-label" for="blackOnWhite">Black on White</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="whiteOnBlack" name="colourScheme" value="whiteOnBlack"
+                              class="custom-control-input">
+                            <label class="custom-control-label" for="whiteOnBlack">White on Black</label>
+                          </div>
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="flames" name="colourScheme" value="flames"
+                              class="custom-control-input">
+                            <label class="custom-control-label" for="flames">Flames</label>
+                          </div>
+                        </div>
+                        <!-- <div class="form-group text-left">
+                          <div class="custom-control custom-radio">
+                            <input type="radio" id="custombandRadio" name="windowLength" value="custom"
+                              class="custom-control-input">
+                            <label class="custom-control-label" for="custombandRadio">Custom</label>
+                          </div> -->
+
+
+                          <!-- <label for="general_graph_settings">Window Length:</label>
+                          <div class="custom-control custom-radio">
+                            <input checked type="radio" id="broadbandRadio" name="windowLength" value="broadband"
+                              class="custom-control-input">
+                            <label class="custom-control-label" for="broadbandRadio">Broadband</label>
+                          </div> -->
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <br>
               </form>
             </div>
@@ -210,9 +296,9 @@
           </img>
           <!-- In the future, change all absolute values to relative percent values -->
           <div class="vowel_area" id="CV1" style="left:0%; top:0.5%;" href="#" data-toggle="modal"
-            data-target="#results_modal" v-on:click="create_spectrogram">
+            data-target="#results_modal" v-on:click="create_figure">
           </div>
-          <div class="vowel_area" id="CV09" style="left:87px; top:0.5%;" href="#" data-toggle="modal"
+          <div class="vowel_area" id="CV9" style="left:87px; top:0.5%;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV17" style="left:422px; top:0.5%;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
@@ -220,7 +306,7 @@
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV16" style="left:817px; top:0.5%; width:70px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
-          <div class="vowel_area" id="CV08" style="left:935px; top:0.5%;" href="#" data-toggle="modal"
+          <div class="vowel_area" id="CV8" style="left:935px; top:0.5%;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV19" style="left:186px; top:113px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
@@ -228,7 +314,7 @@
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV21" style="left:739px; top:113px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
-          <div class="vowel_area" id="CV02" style="left:130px; top:226px;" href="#" data-toggle="modal"
+          <div class="vowel_area" id="CV2" style="left:130px; top:226px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV10" style="left:230px; top:226px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
@@ -238,11 +324,11 @@
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV15" style="left:833px; top:226px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
-          <div class="vowel_area" id="CV07" style="left:935px; top:226px;" href="#" data-toggle="modal"
+          <div class="vowel_area" id="CV7" style="left:935px; top:226px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV24" style="left:565px; top:336px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
-          <div class="vowel_area" id="CV03" style="left:272px; top:445px;" href="#" data-toggle="modal"
+          <div class="vowel_area" id="CV3" style="left:272px; top:445px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV11" style="left:370px; top:445px; width:80px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
@@ -252,17 +338,17 @@
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV14" style="left:839px; top:445px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
-          <div class="vowel_area" id="CV06" style="left:935px; top:445px;" href="#" data-toggle="modal"
+          <div class="vowel_area" id="CV6" style="left:935px; top:445px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV27" style="left:335px; top:568px; width:70px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV28" style="left:638px; top:552px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
-          <div class="vowel_area" id="CV04" style="left:422px; top:669px;" href="#" data-toggle="modal"
+          <div class="vowel_area" id="CV4" style="left:422px; top:669px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV12" style="left:517px; top:669px; width:75px" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
-          <div class="vowel_area" id="CV05" style="left:839px; top:669px;" href="#" data-toggle="modal"
+          <div class="vowel_area" id="CV5" style="left:839px; top:669px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>
           <div class="vowel_area" id="CV13" style="left:935px; top:669px;" href="#" data-toggle="modal"
             data-target="#results_modal"></div>

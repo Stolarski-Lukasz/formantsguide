@@ -23,3 +23,7 @@
 .vowel_area:hover {
   background-color:#4f5459;
 }
+
+.fg-settings-card {
+  height: 25rem;
+}

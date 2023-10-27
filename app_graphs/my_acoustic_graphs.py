@@ -81,7 +81,7 @@ class ParselmouthSpectrogramGrapher(SpectrogramGrapher):
                     for bin_array in spectrogram.values:
                         means_for_bins.append(np.mean(bin_array))
                     singlevowel_means_for_bins_list.append(means_for_bins)
-        
+
         self.Y = spectrogram.y_grid()[:-1]
         self.sample_size = sample_size
         self.cardinal_vowel = cardinal_vowel
@@ -132,7 +132,7 @@ class ParselmouthSpectrogramGrapher(SpectrogramGrapher):
         # removing frame
         for pos in ['right', 'top', 'bottom', 'left']:
             plt.gca().spines[pos].set_visible(False)
-        plt.show()
+        # plt.show()
 
 
 class ParselmouthSpectrumGrapher():
