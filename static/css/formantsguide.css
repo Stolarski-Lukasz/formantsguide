@@ -27,3 +27,16 @@
 .fg-settings-card {
   height: 25rem;
 }
+
+.fg-result-image {
+  width: 50%; 
+  height: 50%;
+}
+
+.fg-results-card {
+  padding: 10px;
+}
+
+.fg-results-paragraph {
+  margin-bottom: 0.5rem;
+}

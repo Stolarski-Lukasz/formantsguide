@@ -11,7 +11,18 @@ const vue_app = Vue.createApp({
       x: 0,
       y: 0,
       phoneticiansList: false,
-      spectrogramButton: true
+      spectrogramButton: true,
+      spectrogramPathAndName: false,
+      spectrumPathAndName: false,
+      cardinalVowel: "",
+      phoneticianGroup: "",
+      sampleSize: 0,
+      windowLength: 0,
+      f1: 0,
+      f2: 0,
+      f3: 0,
+      showF3: false
+
     }
   },
   delimiters: ["${", "}$"],
@@ -66,24 +77,78 @@ const vue_app = Vue.createApp({
         windowLengthInput.value = "0.03"
       }
     },
+    toggleShowF3Checkbox(event) {
+      var showF3Checkbox = document.getElementById("show-f3")
+      if (event.target.checked == true) {
+        showF3Checkbox.disabled = false
+      } else {
+        showF3Checkbox.disabled = true
+        showF3Checkbox.checked = false
+        this.showF3 = false
+      }
+    },
     create_figure(event) {
-      // getting data
+      // reset figures
+      this.spectrogramPathAndName = false
+      this.spectrumPathAndName = false
+
+      // get data
       const user_form = document.querySelector('#userform');
       const cardinal_vowel = event.target.id
+      
+
+      // create parameters for get request
       const formData = new FormData(user_form);
-      console.log(formData)
+      console.log(formData.get("show-formants"))
       formData.append("cardinal_vowel", cardinal_vowel)
       let params = new URLSearchParams(formData);
 
-      if (formData.get("formantsCheck")) {
-        console.log("formantsCheck registed")
+      // updating global variables
+      // TODO adjust sample size for "selected"
+      this.cardinalVowel = cardinal_vowel.slice(2)
+      this.phoneticianGroup = formData.get("phonetician-group")
+      if (this.phoneticianGroup == "male") {
+        this.sampleSize = 14
+      } else if (this.phoneticianGroup == "female") {
+        this.sampleSize = 5
       }
-      // else if ()
-
+      this.windowLength = formData.get("window-length")
+      // TODO
+      var showF3Checkbox = document.getElementById("show-f3")
+      if (showF3Checkbox.checked == true) {
+        this.showF3 = true
+      } else {
+        this.showF3 = false
+      }
+      
 
 
       const request = new XMLHttpRequest();
+      // handle response
+      request.addEventListener('readystatechange', () => {
+        if (request.readyState === 4 && request.status === 200) {
+          let json_response = request.responseText;
+          let response_object = JSON.parse(json_response);
+          this.f1 = response_object.f1
+          this.f2 = response_object.f2
+          this.f3 = response_object.f3
+          this.spectrogramPathAndName = response_object.spectrogram_path_and_name
+          this.spectrumPathAndName = response_object.spectrum_path_and_name
+          // let response_object = JSON.parse(json_response);
+          // let results_array = []
+          // let result_name_counter = 0
+          // for (let result in response_object) {
+          //   results_array.push(response_object['result' + result_name_counter].parts)
+          //   result_name_counter += 1
+          // }
+          // this.results = true
+          // this.results_arrayofarrays = results_array
 
+          // Vue.nextTick(function () {
+          //   add_data_to_info_icon(response_object)
+          // })
+        }
+      })
 
       // params = params + "&cardinal_vowel=" + cardinal_vowel
       // console.log(params)
