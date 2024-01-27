@@ -18,6 +18,7 @@ def get_spectrogram_object(sound_file, window_length="broadband"):
 
     Returns: Parcelmouth spectrogram object
     """
+    print("window lengt in function", window_length)
     if window_length == "broadband":
         window_length = 0.005
     elif window_length == "narrowband":
@@ -72,6 +73,7 @@ class BatchAcousticDataProcessor:
             output_data_type (str, optional): Defaults to "spectrogram". Other options are "spectrum", which does not multiply the obtained values to mach fequency bins number, and "spectrogram_and_spectrum" which deals with both spectrogram data and spectrum data.
         """
         self.window_length = window_length
+        print("here1", self.window_length)
         folders_list = get_folders_list(folder_name)
         singlevowel_means_for_bins_list = []
         sample_size = 0
@@ -88,6 +90,48 @@ class BatchAcousticDataProcessor:
                     for bin_array in spectrogram.values:
                         means_for_bins.append(np.mean(bin_array))
                     singlevowel_means_for_bins_list.append(means_for_bins)
+
+        self.Y = spectrogram.y_grid()[:-1]
+        self.sample_size = sample_size
+        self.cardinal_vowel = cardinal_vowel
+        general_means_for_bins = np.mean(
+            np.array(singlevowel_means_for_bins_list), axis=0)
+        if output_data_type == "spectrum":
+            self.average_spectrum_values = general_means_for_bins
+        if output_data_type == "spectrogram":
+            # creating 2-dimensional np array with means_for_bins repeated the times equal to the number of frequency bins for each bin
+            self.average_spectrogram_values = np.tile(
+                general_means_for_bins[:, np.newaxis], len(self.Y))
+        if output_data_type == "spectrogram_and_spectrum":
+            self.average_spectrum_values = general_means_for_bins
+            # creating 2-dimensional np array with means_for_bins repeated the times equal to the number of frequency bins for each bin
+            self.average_spectrogram_values = np.tile(
+                general_means_for_bins[:, np.newaxis], len(self.Y))
+
+    def get_average_bin_values_listofpaths(self, listofpaths, cardinal_vowel, window_length="broadband", output_data_type="spectrogram_and_spectrum"):
+        """
+        Generates average values for each frequency bin. When data_type="spectrogram" these values are additionally multiplied to match frequency bins number (so that the data can be x-y plotted)
+
+        Args:
+            folder_name (str or list): path/folder to vowel recordings or list of paths to selected recordings
+            cardinal_vowel (str): e.g. 01, 10, 20
+            window_length (str, optional): Defaults to "broadband". Other options are "narrowband" or you can provide an integer value, just like in "get_spectrogram" in get_spectrogram_object in my_parselmouth.py
+            output_data_type (str, optional): Defaults to "spectrogram". Other options are "spectrum", which does not multiply the obtained values to mach fequency bins number, and "spectrogram_and_spectrum" which deals with both spectrogram data and spectrum data.
+        """
+        self.window_length = window_length
+        files_list = listofpaths
+        singlevowel_means_for_bins_list = []
+        sample_size = 0
+
+        for file in files_list:
+            print("found: ", file)
+            sample_size += 1
+            spectrogram = get_spectrogram_object(sound_file=file,
+                                                    window_length=window_length)
+            means_for_bins = []
+            for bin_array in spectrogram.values:
+                means_for_bins.append(np.mean(bin_array))
+            singlevowel_means_for_bins_list.append(means_for_bins)
 
         self.Y = spectrogram.y_grid()[:-1]
         self.sample_size = sample_size

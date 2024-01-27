@@ -136,6 +136,8 @@
                             <input type="radio" id="selected-phoneticians-radio" name="phonetician-group"
                               value="selected" class="custom-control-input" v-on:click="enablePhoneticiansList">
                             <label class="custom-control-label" for="selected-phoneticians-radio">Selected</label>
+                            <img class="fg-info-icon" src="/static/img/info_icon.png" data-toggle="tooltip" data-placement="right" title="To select individual phoneticians at different places, use 'Ctrl'"></img>
+                            </button>
                           </div>
                         </div>
 
@@ -144,28 +146,30 @@
                           <label for="phoneticians">Phoneticians:</label>
                           <select disabled multiple class="custom-select form-control" size="7" id="phoneticians"
                             name="phoneticians">
+                            <option class="male" value="alvin_leong" selected>Alvin Leong (male)</option>
+                            <option class="male" value="australianlinguistics" selected>Australianlinguistics (male)</option>
                             <option class="male" value="bruce_hayes" selected>Bruce Hayes (male)</option>
                             <option class="male" value="daniel_jones" id="daniel-jones" selected>Daniel Jones (male)
                             </option>
                             <option class="male" value="dan_lenard" selected>Dan Lenard (male)</option>
                             <option class="male" value="david_madore" selected>David Madore (male)</option>
-                            <option class="female" value="iza">Iza (female)</option>
+                            <option class="female" value="iza_grabarczyk">Iza Grabarczyk (female)</option>
                             <option class="female" value="jill_house">Jill House (female)</option>
                             <option class="male" value="john_wells" selected>John Wells (male)</option>
                             <option class="male" value="jonathan_dowse" selected>Jonathan Dowse (male)</option>
                             <option class="male" value="jurgen_handke" selected>Jürgen Handke (male)</option>
                             <option class="male" value="lukasz_stolarski" selected>Łukasz Stolarski (male)</option>
-                            <option class="male" value="macquarie_uni" selected>"Macquire University" (male)</option>
-                            <option class="female" value="magda">Magda (female)</option>
-                            <option class="female" value="ola">Ola Matysiak (female)</option>
-                            <option class="male" value="peter_ladefoged1" selected>Peter Ladefoged 1 (male)</option>
-                            <option class="male" value="peter_ladefoged2" selected>Peter Ladefoged 2 (male)</option>
+                            <option class="male" value="macquire_university" selected>"Macquire University" (male)</option>
+                            <option class="female" value="magda_zajac">Magda Zając (female)</option>
+                            <option class="female" value="ola_matysiak">Ola Matysiak (female)</option>
+                            <option class="male" value="peter_ladefoged_1" selected>Peter Ladefoged 1 (male)</option>
+                            <option class="male" value="peter_ladefoged_2" selected>Peter Ladefoged 2 (male)</option>
                             <option class="male" value="uni_sheffield_male" selected>"The University of Sheffield"
                               (male)</option>
                             <option class="female" value="uni_sheffield_female">"The University of Sheffield" (female)
                             </option>
-                            <option class="male" value="uni_victoria" selected>"University of Victoria" (male)</option>
-                            <option class="male" value="vikipedia" selected>"Wikipedia" (male)</option>
+                            <option class="male" value="university_of_victoria" selected>"University of Victoria" (male)</option>
+                            <option class="male" value="wikipedia" selected>"Wikipedia" (male)</option>
                           </select>
                         </div>
                       </div>
@@ -208,6 +212,7 @@
                             <div class="custom-control custom-checkbox">
                               <input type="checkbox" class="custom-control-input" id="show-f3" name="show-f3">
                               <label class="custom-control-label" for="show-f3">Show F3</label>
+                              <img class="fg-info-icon" src="/static/img/info_icon.png" data-toggle="tooltip" data-placement="right" title="Measurements of F3 may not always be perfectly precise"></img>
                             </div>
                           </div>
                           <div class="col-xs-12" style="height:0.5em;"></div>
@@ -269,6 +274,16 @@
     <br>
     <br>
 
+
+    <div class="row">
+      <div class="col text-center d-flex justify-content-center">
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="fg-numbering-switch" v-on:click="toggleNumbering">
+          <label class="custom-control-label" for="fg-numbering-switch">Hide/Show numbering</label>
+        </div>
+      </div>
+    </div>
+    <br>
     <!-- This part is for testing the position of vowel areas -->
     <!-- <div class="row">
         <div class="col text-center d-flex justify-content-center">
@@ -280,7 +295,7 @@
     <div class="row">
       <div class="col text-center d-flex justify-content-center">
         <div class="image-container">
-          <img src="/static/img/IPA_vowel_diagram.jpg" width="1000" height="750" usemap="#vowelsmap"
+          <img v-bind:src="diagramPathAndName" width="1000" height="750" usemap="#vowelsmap"
             v-on:mousemove="showCoordinates">
           </img>
           <!-- In the future, change all absolute values to relative percent values -->
@@ -367,6 +382,10 @@
                       <div class="col-auto text-left">
                         <p class="fg-results-paragraph">Phonetician group: ${ phoneticianGroup }$</p>
                         <p class="fg-results-paragraph">Sample size: ${ sampleSize }$</p>
+                        <p class="fg-results-paragraph">Phoneticians in the sample:
+                          <div v-for="phonetician in phoneticiansFound"> ${ phonetician }$ </div></p>
+                        <!-- <p class="fg-results-paragraph" v-for="phonetician in phoneticiansFound">Phoneticians in the sample:
+                           ${ phonetician }$ </p> -->
                         <p class="fg-results-paragraph">Window length: ${ windowLength }$</p>
                       </div>
                       <div class="col-auto text-left">
@@ -380,12 +399,45 @@
                 </div>
                 <img v-bind:src="spectrumPathAndName" class="fg-result-image">
                 <img v-bind:src="spectrogramPathAndName" class="fg-result-image">
+                <div class="col-xs-12" style="height:1em;"></div>
+                <div class="row ">
+                  <div class="col text-center">
+                    <a v-bind:href="spectrumPathAndName" class="button" id="image_download" download>
+                      <button type="button" class="btn btn-primary" id="image_download_button">Save
+                        image</button>
+                    </a>
+                  </div>
+                  <div class="col text-center">
+                    <a v-bind:href="spectrogramPathAndName" class="button" id="image_download" download>
+                      <button type="button" class="btn btn-primary" id="image_download_button">Save
+                        image</button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="recordingsNotAvailable">
+                <div class="row">
+                  <div class="col text-center justify-content-center">
+                    <p>Recordings for this Cardinal Vowel are not available for the selected phoneticians.</p>
+                    <p>Please choose other options.</p>
+
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="incorrectWindowLength">
+                <div class="row">
+                  <div class="col text-center justify-content-center">
+                    <p>The accepted values for custom window length is between 0.1 and 0.0005.</p>
+                    <p>Please choose a different value from the one you have submitted.</p>
+
+                  </div>
+                </div>
               </div>
               <div v-else>
                 <div class="row">
                   <div class="col text-center justify-content-center">
                     <p>Please wait, processing...</p>
-                    <div class="col-xs-12" style="height:1em;"></div>
+                    <div class="col-xs-12" style="height:0.75em;"></div>
                     <div class="spinner-border" role="status">
                       <span class="sr-only">Loading...</span>
                     </div>
@@ -416,7 +468,7 @@
   <!-- formantsguide Vue scripts -->
   <script type="module" src="{% static 'js/formantsguide-vue-main.js' %}"></script>
   <!-- Additional scripts -->
-  <!-- <script src="{% static 'js/layeredCanvas.js' %}"></script> -->
+  <script src="{% static 'js/formantsguide.js' %}"></script>
   <!-- <script src="{% static 'js/grey-audio-player.js' %}"></script> -->
 
   </div>

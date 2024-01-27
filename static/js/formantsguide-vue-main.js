@@ -17,12 +17,15 @@ const vue_app = Vue.createApp({
       cardinalVowel: "",
       phoneticianGroup: "",
       sampleSize: 0,
+      phoneticiansFound: 0,
       windowLength: 0,
       f1: 0,
       f2: 0,
       f3: 0,
-      showF3: false
-
+      showF3: false,
+      diagramPathAndName: "/static/img/IPA_vowel_diagram.jpg",
+      recordingsNotAvailable: false,
+      incorrectWindowLength: false
     }
   },
   delimiters: ["${", "}$"],
@@ -30,6 +33,13 @@ const vue_app = Vue.createApp({
     showCoordinates(event) {
       this.x = event.offsetX
       this.y = event.offsetY
+    },
+    toggleNumbering(event) {
+      if (event.target.checked == true) {
+        this.diagramPathAndName = "/static/img/IPA_vowel_diagram_numbered.jpg"
+      } else {
+        this.diagramPathAndName = "/static/img/IPA_vowel_diagram.jpg"
+      }
     },
     enablePhoneticiansList(event) {
       var phoneticians = document.getElementById("phoneticians")
@@ -91,15 +101,16 @@ const vue_app = Vue.createApp({
       // reset figures
       this.spectrogramPathAndName = false
       this.spectrumPathAndName = false
+      this.recordingsNotAvailable = false
+      this.incorrectWindowLength = false
 
       // get data
       const user_form = document.querySelector('#userform');
       const cardinal_vowel = event.target.id
-      
+
 
       // create parameters for get request
       const formData = new FormData(user_form);
-      console.log(formData.get("show-formants"))
       formData.append("cardinal_vowel", cardinal_vowel)
       let params = new URLSearchParams(formData);
 
@@ -107,11 +118,6 @@ const vue_app = Vue.createApp({
       // TODO adjust sample size for "selected"
       this.cardinalVowel = cardinal_vowel.slice(2)
       this.phoneticianGroup = formData.get("phonetician-group")
-      if (this.phoneticianGroup == "male") {
-        this.sampleSize = 14
-      } else if (this.phoneticianGroup == "female") {
-        this.sampleSize = 5
-      }
       this.windowLength = formData.get("window-length")
       // TODO
       var showF3Checkbox = document.getElementById("show-f3")
@@ -120,39 +126,33 @@ const vue_app = Vue.createApp({
       } else {
         this.showF3 = false
       }
-      
-
 
       const request = new XMLHttpRequest();
       // handle response
       request.addEventListener('readystatechange', () => {
         if (request.readyState === 4 && request.status === 200) {
+          console.log("response")
           let json_response = request.responseText;
           let response_object = JSON.parse(json_response);
-          this.f1 = response_object.f1
-          this.f2 = response_object.f2
-          this.f3 = response_object.f3
-          this.spectrogramPathAndName = response_object.spectrogram_path_and_name
-          this.spectrumPathAndName = response_object.spectrum_path_and_name
-          // let response_object = JSON.parse(json_response);
-          // let results_array = []
-          // let result_name_counter = 0
-          // for (let result in response_object) {
-          //   results_array.push(response_object['result' + result_name_counter].parts)
-          //   result_name_counter += 1
-          // }
-          // this.results = true
-          // this.results_arrayofarrays = results_array
-
-          // Vue.nextTick(function () {
-          //   add_data_to_info_icon(response_object)
-          // })
+          if (response_object.incorrect_window_length) {
+            this.incorrectWindowLength = true
+          }
+          else if (response_object.f1 == null) {
+            this.recordingsNotAvailable = true
+            console.log("here")
+          } else {
+            this.f1 = response_object.f1
+            this.f2 = response_object.f2
+            this.f3 = response_object.f3
+            console.log(response_object.spectrogram_path_and_name)
+            this.spectrogramPathAndName = response_object.spectrogram_path_and_name
+            this.spectrumPathAndName = response_object.spectrum_path_and_name
+            this.sampleSize = response_object.sample_size
+            this.phoneticiansFound = response_object.phoneticians_found
+          }
         }
       })
 
-      // params = params + "&cardinal_vowel=" + cardinal_vowel
-      // console.log(params)
-      // request.open('GET', '/search/?' + params.toString());
       request.open('GET', '/create_spectrogram/?' + params.toString());
       request.send();
     },

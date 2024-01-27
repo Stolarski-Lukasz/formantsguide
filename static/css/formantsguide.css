@@ -40,3 +40,15 @@
 .fg-results-paragraph {
   margin-bottom: 0.5rem;
 }
+
+.fg-info-icon {
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 2px;
+  margin-bottom: 10px;
+  /* margin-right: 3px; */
+  cursor: pointer;
+  /* border-radius: 5px; */
+  /* box-shadow: none; */
+}
+
