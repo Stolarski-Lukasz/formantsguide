@@ -74,17 +74,12 @@ def create_spectrogram(request: HttpRequest):
             # TODO - nie rozumiem co to jest recording__in - tego nie ma ani w jednej ani w drugie tabeli... - to jest co najwyżej nazwa z jednej z tabel
             # TODO - wyjaśnić to kiedyś...
             phoneticians_found = Phonetician.objects.filter(recording__in=recordings_found)
-            # print("phoneticians_found", phoneticians_found)
             phoneticians_found_list = []
             for query_set in phoneticians_found:
                 phoneticians_found_list.append(query_set.official_name)
-            # print("phoneticians_found_list", phoneticians_found_list)
-            # official_names_list = phoneticians_found.values_list('official_name', flat=True)
-            # print("official names", official_names_list)
             folder_or_listofpaths = []
             for recording in recordings_found:
                 folder_or_listofpaths.append(recording.path)
-            print("folder_or_listofpaths", folder_or_listofpaths)
             f1 = Recording.objects.filter(phonetician__in=phoneticians_selected, vowel=cardinal_vowel_int).aggregate(Avg('f1'))
             f1 = int(f1["f1__avg"])
             f2 = Recording.objects.filter(phonetician__in=phoneticians_selected, vowel=cardinal_vowel_int).aggregate(Avg('f2'))

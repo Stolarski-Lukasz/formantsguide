@@ -87,11 +87,10 @@ class ParselmouthSpectrogramGrapher(SpectrogramGrapher):
         plt.gca().get_xaxis().set_ticks([])
 
         if title:
-            plt.title("CV " + str(cardinal_vowel) + " average " + " spectrogram " + "(n = " + str(sample_size) + ")")
+            plt.title("CV " + str(cardinal_vowel) + " average " + "quasi-spectrogram " + "(n = " + str(sample_size) + ")")
 
         if save:
             if save_name:
-                print(save_name)
                 plt.savefig(save_folder + save_name, dpi=200)
             else:
                 plt.savefig("average_spectrogram", dpi=200)
@@ -164,7 +163,7 @@ class ParselmouthSpectrumGrapher(SpectrumGrapher):
 
         if title:
             plt.title("CV " + str(cardinal_vowel) + " average " +
-                      " spectrum slice " + "(n = " + str(sample_size) + ")")
+                      "spectrum " + "(n = " + str(sample_size) + ")")
 
         # removing frame
         # for pos in ['right', 'top', 'bottom', 'left']:

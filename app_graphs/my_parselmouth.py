@@ -18,7 +18,6 @@ def get_spectrogram_object(sound_file, window_length="broadband"):
 
     Returns: Parcelmouth spectrogram object
     """
-    print("window lengt in function", window_length)
     if window_length == "broadband":
         window_length = 0.005
     elif window_length == "narrowband":
@@ -73,7 +72,6 @@ class BatchAcousticDataProcessor:
             output_data_type (str, optional): Defaults to "spectrogram". Other options are "spectrum", which does not multiply the obtained values to mach fequency bins number, and "spectrogram_and_spectrum" which deals with both spectrogram data and spectrum data.
         """
         self.window_length = window_length
-        print("here1", self.window_length)
         folders_list = get_folders_list(folder_name)
         singlevowel_means_for_bins_list = []
         sample_size = 0
@@ -82,7 +80,6 @@ class BatchAcousticDataProcessor:
             files_list = get_files_list(folder)
             for file in files_list:
                 if file[folder_length:folder_length+2] == cardinal_vowel:
-                    print("found: ", file)
                     sample_size += 1
                     spectrogram = get_spectrogram_object(sound_file=file,
                                                          window_length=window_length)
@@ -124,7 +121,6 @@ class BatchAcousticDataProcessor:
         sample_size = 0
 
         for file in files_list:
-            print("found: ", file)
             sample_size += 1
             spectrogram = get_spectrogram_object(sound_file=file,
                                                     window_length=window_length)
@@ -257,8 +253,6 @@ def get_spectral_traits_gmf0(sound_file, gender):
         number_of_frames = call(f0, "Get number of frames")
         pitch_listing = []
         for frame_number in range(1, number_of_frames+1):
-            # time = call(f0, "Get time from frame number", frame_number)
-            # print(time)
             pitch_in_frame = call(f0, "Get value in frame", frame_number, "Hertz")
             if math.isnan(pitch_in_frame) != True:
                 pitch_listing.append(pitch_in_frame)

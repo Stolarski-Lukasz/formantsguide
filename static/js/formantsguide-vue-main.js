@@ -131,7 +131,6 @@ const vue_app = Vue.createApp({
       // handle response
       request.addEventListener('readystatechange', () => {
         if (request.readyState === 4 && request.status === 200) {
-          console.log("response")
           let json_response = request.responseText;
           let response_object = JSON.parse(json_response);
           if (response_object.incorrect_window_length) {
@@ -139,12 +138,10 @@ const vue_app = Vue.createApp({
           }
           else if (response_object.f1 == null) {
             this.recordingsNotAvailable = true
-            console.log("here")
           } else {
             this.f1 = response_object.f1
             this.f2 = response_object.f2
             this.f3 = response_object.f3
-            console.log(response_object.spectrogram_path_and_name)
             this.spectrogramPathAndName = response_object.spectrogram_path_and_name
             this.spectrumPathAndName = response_object.spectrum_path_and_name
             this.sampleSize = response_object.sample_size
