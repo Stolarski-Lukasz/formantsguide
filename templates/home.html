@@ -196,6 +196,7 @@
                             <input type="radio" id="customband-radio" name="window-length" value="custom"
                               class="custom-control-input" v-on:click="enableWindowLengthInput">
                             <label class="custom-control-label" for="customband-radio">Custom</label>
+                            <img class="fg-info-icon" src="/static/img/info_icon.png" data-toggle="tooltip" data-placement="right" title="Accepted values for the custom window length are between 0.1 and 0.0005"></img>
                           </div>
                           <div class="col-xs-12" style="height:0.75em;"></div>
                           <input disabled class="form-control" id="window-length-input" type="text"
@@ -425,7 +426,7 @@
               <div v-else-if="incorrectWindowLength">
                 <div class="row">
                   <div class="col text-center justify-content-center">
-                    <p>The accepted values for custom window length is between 0.1 and 0.0005.</p>
+                    <p>Accepted values for the custom window length are between 0.1 and 0.0005.</p>
                     <p>Please choose a different value from the one you have submitted.</p>
 
                   </div>

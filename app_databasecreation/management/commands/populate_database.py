@@ -7,9 +7,8 @@ import app_databasecreation.my_read_files as my
 # settings
 databasepopulation_data_folder = "app_databasecreation/databasecreation_data/"
 databasepopulation_data_folder_len = len(databasepopulation_data_folder)
-data = pd.read_csv(databasepopulation_data_folder + "allphoneticians_without_lowermaleCV8.csv")
+data = pd.read_csv(databasepopulation_data_folder + "allphoneticians 4.csv")
 print(data.head())
-print(data[(data.speaker == "david_madore") & (data.vowel == int("08"))].iloc[0, 4])
 
 
 # obligatory class
