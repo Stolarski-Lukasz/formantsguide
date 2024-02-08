@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-eytyeh#vg)2gu3af0=zbz=)ms==foz=o35-77xhejs%$(y2el%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'formantsguide.pythonanywhere.com']
 
 
 # Application definition
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'formantsguide.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['templates', '/home/formantsguide/formantsguide/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
