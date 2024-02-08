@@ -79,7 +79,7 @@ def create_spectrogram(request: HttpRequest):
                 phoneticians_found_list.append(query_set.official_name)
             folder_or_listofpaths = []
             for recording in recordings_found:
-                folder_or_listofpaths.append(recording.path)
+                folder_or_listofpaths.append(BASE_DIR + "/" + recording.path)
             f1 = Recording.objects.filter(phonetician__in=phoneticians_selected, vowel=cardinal_vowel_int).aggregate(Avg('f1'))
             f1 = int(f1["f1__avg"])
             f2 = Recording.objects.filter(phonetician__in=phoneticians_selected, vowel=cardinal_vowel_int).aggregate(Avg('f2'))
