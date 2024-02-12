@@ -111,9 +111,9 @@
               <h3 class="card-text">Settings</h3>
               <form id="userform" v-on:submit.prevent="">
                 {% csrf_token %}
-                <br>
+                <!-- <br> -->
                 <div class="row justify-content-center">
-                  <div class="col-md text-center justify-content-center">
+                  <div class="col-lg text-center justify-content-center">
                     <div class="card shadow-sm fg-settings-card">
                       <div class="card-body">
                         <h5>Phonetician Group</h5>
@@ -174,7 +174,7 @@
                     </div>
                   </div>
 
-                  <div class="col text-center justify-content-center">
+                  <div class="col-lg text-center justify-content-center">
                     <div class="card shadow-sm fg-settings-card">
                       <div class="card-body">
                         <!-- <p class="card-text">General Graph Settings: <br> (affect both spectrograms and spectral slices)</p> -->
@@ -207,9 +207,11 @@
                               name="show-formants" v-on:click="toggleShowF3Checkbox">
                             <label class="custom-control-label" for="show-formants">Show Formants</label>
                           </div>
-                          <div class="custom-control-wrapper" style="margin-left: 1.5em;">
+                          <!-- this tickbox is hidden for now - better not deal with F3 openly before publishing... -->
+                          <!-- to make it operatable, also enable the toggleShowF3Checkbox() function in formantsguide-vue-main.js -->
+                          <div v-show="false" class="custom-control-wrapper" style="margin-left: 1.5em;">
                             <div class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" id="show-f3" name="show-f3">
+                              <input checked type="checkbox" class="custom-control-input" id="show-f3" name="show-f3">
                               <label class="custom-control-label" for="show-f3">Show F3</label>
                               <img class="fg-info-icon" src="/static/img/info_icon.png" data-toggle="tooltip" data-placement="right" title="Measurements of F3 may not always be perfectly precise"></img>
                             </div>
@@ -224,7 +226,7 @@
                     </div>
                   </div>
 
-                  <div class="col text-center justify-content-center">
+                  <div class="col-lg text-center justify-content-center">
                     <div class="card shadow-sm fg-settings-card">
                       <div class="card-body">
                         <!-- <p class="card-text">Additional Spectrogram Settings:</p> -->
@@ -294,11 +296,14 @@
     <div class="row">
       <div class="col text-center d-flex justify-content-center">
         <div class="image-container">
-          <img v-bind:src="diagramPathAndName" width="1000" height="750" usemap="#vowelsmap"
-            v-on:mousemove="showCoordinates">
-          </img>
+
+
+          <!-- remove fixed width and height -->
+          <!-- <img v-bind:src="diagramPathAndName" width="1000" height="750" usemap="#vowelsmap"
+            v-on:mousemove="showCoordinates" id="fg-vowel-quadrilateral">
+          </img> -->
           <!-- In the future, change all absolute values to relative percent values -->
-          <div class="vowel_area" id="CV1" style="left:0%; top:0.5%;" href="#" data-toggle="modal"
+          <!-- <div class="vowel_area" id="CV1" style="left:0%; top:0.5%;" href="#" data-toggle="modal"
             data-target="#results_modal" v-on:click="create_figure">
           </div>
           <div class="vowel_area" id="CV9" style="left:87px; top:0.5%;" href="#" data-toggle="modal"
@@ -354,6 +359,67 @@
           <div class="vowel_area" id="CV5" style="left:839px; top:669px;" href="#" data-toggle="modal"
             data-target="#results_modal" v-on:click="create_figure"></div>
           <div class="vowel_area" id="CV13" style="left:935px; top:669px;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div> -->
+
+          <img v-bind:src="diagramPathAndName" usemap="#vowelsmap"
+            v-on:mousemove="showCoordinates" id="fg-vowel-quadrilateral">
+          </img>
+          <div class="vowel_area" id="CV1" style="left:0%; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure">
+          </div>
+          <div class="vowel_area" id="CV9" style="left:8.7%; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV17" style="left:42.2%; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV18" style="left:51%; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV16" style="left:81.7%; top:0.5%; width:7%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV8" style="left:93.5%; top:0.5%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV19" style="left:18.6%; top:15%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV20" style="left:25.1%; top:15%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV21" style="left:73.9%; top:15%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV2" style="left:13%; top:30.1%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV10" style="left:23%; top:30.1%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV22" style="left:48.5%; top:30.1%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV23" style="left:58.1%; top:30.1%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV15" style="left:83.3%; top:30.1%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV7" style="left:93.5%; top:30.1%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV24" style="left:56.5%; top:44.8%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV3" style="left:27.2%; top:59%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV11" style="left:37%; top:59%; width:8%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV25" style="left:55.5%; top:59%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV26" style="left:65.1%; top:59%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV14" style="left:83.9%; top:59%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV6" style="left:93.5%; top:59%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV27" style="left:33.5%; top:75.5%; width:7%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV28" style="left:63.8%; top:73%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV4" style="left:42.2%; top:89.1%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV12" style="left:51.7%; top:89.1%; width:7.5%" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV5" style="left:83.9%; top:89.1%;" href="#" data-toggle="modal"
+            data-target="#results_modal" v-on:click="create_figure"></div>
+          <div class="vowel_area" id="CV13" style="left:93.5%; top:89.1%;" href="#" data-toggle="modal"
             data-target="#results_modal" v-on:click="create_figure"></div>
         </div>
       </div>

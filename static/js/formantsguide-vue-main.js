@@ -87,16 +87,17 @@ const vue_app = Vue.createApp({
         windowLengthInput.value = "0.03"
       }
     },
-    toggleShowF3Checkbox(event) {
-      var showF3Checkbox = document.getElementById("show-f3")
-      if (event.target.checked == true) {
-        showF3Checkbox.disabled = false
-      } else {
-        showF3Checkbox.disabled = true
-        showF3Checkbox.checked = false
-        this.showF3 = false
-      }
-    },
+    // F3 tickbox is hidden for now - better not deal with F3 openly before publishing...
+    // toggleShowF3Checkbox(event) {
+    //   var showF3Checkbox = document.getElementById("show-f3")
+    //   if (event.target.checked == true) {
+    //     showF3Checkbox.disabled = false
+    //   } else {
+    //     showF3Checkbox.disabled = true
+    //     showF3Checkbox.checked = false
+    //     this.showF3 = false
+    //   }
+    // },
     create_figure(event) {
       // reset figures
       this.spectrogramPathAndName = false
