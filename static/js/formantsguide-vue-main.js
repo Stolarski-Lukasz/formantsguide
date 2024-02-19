@@ -1,9 +1,3 @@
-
-import {
-  add_data_to_info_icon
-} from "./formantsguide-vue-auxiliary.js"
-
-
 const vue_app = Vue.createApp({
   data() {
     return {
@@ -87,6 +81,21 @@ const vue_app = Vue.createApp({
         windowLengthInput.value = "0.03"
       }
     },
+    reactToNormalizePower(event) {
+      var dynamicRange = document.getElementById("dynamic-range")
+      var dbCoefficient = document.getElementById("db-coefficient")
+      if (event.target.checked == true) {
+        dynamicRange.value = "---"
+        dynamicRange.disabled = true
+        dbCoefficient.value = "---"
+        dbCoefficient.disabled = true
+      } else {
+        dynamicRange.value = "50"
+        dynamicRange.disabled = false
+        dbCoefficient.value = "10"
+        dbCoefficient.disabled = false
+      }
+    },
     // F3 tickbox is hidden for now - better not deal with F3 openly before publishing...
     // toggleShowF3Checkbox(event) {
     //   var showF3Checkbox = document.getElementById("show-f3")
@@ -98,8 +107,8 @@ const vue_app = Vue.createApp({
     //     this.showF3 = false
     //   }
     // },
-    create_figure(event) {
-      // reset figures
+    createGraphs(event) {
+      // reset graphs
       this.spectrogramPathAndName = false
       this.spectrumPathAndName = false
       this.recordingsNotAvailable = false
@@ -109,18 +118,21 @@ const vue_app = Vue.createApp({
       const user_form = document.querySelector('#userform');
       const cardinal_vowel = event.target.id
 
-
       // create parameters for get request
+      // temporarily enable phoneticians for when "male" or "female" option is selected - necessary to attach list of phoneticians to the FormData
+      let phoneticians = document.getElementById("phoneticians")
+      phoneticians.disabled = false
       const formData = new FormData(user_form);
+      if (formData.get("phonetician-group") != "selected") {
+        phoneticians.disabled = true
+      }
       formData.append("cardinal_vowel", cardinal_vowel)
       let params = new URLSearchParams(formData);
 
       // updating global variables
-      // TODO adjust sample size for "selected"
       this.cardinalVowel = cardinal_vowel.slice(2)
       this.phoneticianGroup = formData.get("phonetician-group")
       this.windowLength = formData.get("window-length")
-      // TODO
       var showF3Checkbox = document.getElementById("show-f3")
       if (showF3Checkbox.checked == true) {
         this.showF3 = true
@@ -137,7 +149,7 @@ const vue_app = Vue.createApp({
           if (response_object.incorrect_window_length) {
             this.incorrectWindowLength = true
           }
-          else if (response_object.f1 == null) {
+          else if (response_object.recordings_not_available) {
             this.recordingsNotAvailable = true
           } else {
             this.f1 = response_object.f1
@@ -151,35 +163,7 @@ const vue_app = Vue.createApp({
         }
       })
 
-      request.open('GET', '/create_spectrogram/?' + params.toString());
-      request.send();
-    },
-    search(event) {
-      const user_form = document.querySelector('#userform');
-
-      // handling response
-      const request = new XMLHttpRequest();
-      request.addEventListener('readystatechange', () => {
-        if (request.readyState === 4 && request.status === 200) {
-          let json_response = request.responseText;
-          let response_object = JSON.parse(json_response);
-          let results_array = []
-          let result_name_counter = 0
-          for (let result in response_object) {
-            results_array.push(response_object['result' + result_name_counter].parts)
-            result_name_counter += 1
-          }
-          this.results = true
-          this.results_arrayofarrays = results_array
-
-          Vue.nextTick(function () {
-            add_data_to_info_icon(response_object)
-          })
-        }
-      })
-      const formData = new FormData(user_form);
-      const params = new URLSearchParams(formData);
-      request.open('GET', '/search/?' + params.toString());
+      request.open('GET', '/create_graphs/?' + params.toString());
       request.send();
     }
   }
