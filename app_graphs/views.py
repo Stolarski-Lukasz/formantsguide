@@ -40,6 +40,7 @@ def create_graphs(request: HttpRequest):
         db_coeff_int = int(request.GET.get("db-coefficient"))
     colour_scheme = request.GET.get("colour-scheme")
     phoneticians = request.GET.getlist("phoneticians")
+    print("phoneticians", phoneticians)
 
     # processing user data
     if cardinal_vowel_int < 10:

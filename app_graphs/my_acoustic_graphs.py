@@ -136,10 +136,12 @@ class ParselmouthSpectrogramGrapher(SpectrogramGrapher):
             sg_db = average_spectrogram_values
             partial_name = " normalized average quasi-spectrogram "
             print("my_acoustic_graphs z_score_normalization")
+            plt.pcolormesh(X, Y, sg_db, cmap=colour_scheme, shading='auto')
         else:
             sg_db = db_coeff * np.log10(average_spectrogram_values)
             partial_name = " average quasi-spectrogram "
-        plt.pcolormesh(X, Y, sg_db, cmap=colour_scheme, shading='auto')
+            plt.pcolormesh(X, Y, sg_db, vmin=sg_db.max() -
+                        dynamic_range, cmap=colour_scheme)
         if formants:
             f1 = np.array([formants[0]] * len(Y))
             plt.plot(X, f1, 'o', markersize=0.8, color='tab:blue')
@@ -302,6 +304,8 @@ class ParselmouthSpectrumGrapher(SpectrumGrapher):
             plt.title("CV " + str(cardinal_vowel) + partial_name + "(n = " + str(sample_size) + ")")
 
         plt.grid(color='#C8C8C8', linewidth=0.3)
+        # enable the below line for testing
+        # plt.xticks(np.arange(0, 4000, 200), fontsize=7)
 
         if save:
             if save_name:

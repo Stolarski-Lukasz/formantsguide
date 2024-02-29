@@ -7,7 +7,7 @@ import app_databasecreation.my_read_files as my
 # settings
 databasepopulation_data_folder = "app_databasecreation/databasecreation_data/"
 databasepopulation_data_folder_len = len(databasepopulation_data_folder)
-data = pd.read_csv(databasepopulation_data_folder + "allphoneticians 4.csv")
+data = pd.read_csv(databasepopulation_data_folder + "allphoneticians 7.csv")
 print(data.head())
 
 
@@ -68,8 +68,8 @@ class Command(BaseCommand):
                 recording.vowel = int(vowel)
                 print(name, official_name, vowel)
 
-                recording.f1 = data[(data.speaker == name) & (data.vowel == int(vowel))].iloc[0, 4]
-                recording.f2 = data[(data.speaker == name) & (data.vowel == int(vowel))].iloc[0, 5]
-                recording.f3 = data[(data.speaker == name) & (data.vowel == int(vowel))].iloc[0, 6]
+                recording.f1 = data[(data.speaker == name) & (data.vowel == int(vowel))].iloc[0, 5]
+                recording.f2 = data[(data.speaker == name) & (data.vowel == int(vowel))].iloc[0, 6]
+                recording.f3 = data[(data.speaker == name) & (data.vowel == int(vowel))].iloc[0, 7]
 
                 recording.save()
