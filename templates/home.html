@@ -35,6 +35,35 @@
             <li class="nav-item active">
               <a class="nav-link" href="#" data-toggle="modal" data-target="#about_modal">About</a>
             </li>
+
+
+
+            <li class="nav-item dropdown active">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Tables
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% static 'summaries/tables/Male Mean Formants.csv' %}" >Male Mean Formants</a>
+                <a class="dropdown-item" href="{% static 'summaries/tables/Female Mean Formants.csv' %}">Female Mean Formants</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown active">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Graphs
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Male Primary-Secondary Cardinal Vowels.jpg' %}" target="_blank">Male Primary-Secondary</a>
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Male Inner Cardinal Vowels.jpg' %}" target="_blank">Male Inner</a>
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Female Primary-Secondary Cardinal Vowels.jpg' %}" target="_blank">Female Primary-Secondary</a>
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Female Inner Cardinal Vowels.jpg' %}" target="_blank">Female Inner</a>
+
+              </div>
+            </li>
+
+
+
             <li class="nav-item active">
               <a class="nav-link" href="#" data-toggle="modal" data-target="#contact_modal">Contact</a>
             </li>
@@ -55,8 +84,8 @@
           </div>
           <div class="modal-body">
             <p>Formants Guide</p>
-            <p>Ver. 1.0</p>
-            <p>January 2024</p>
+            <p>Ver. 1.3</p>
+            <p>March 2024</p>
           </div>
         </div>
       </div>
