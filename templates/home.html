@@ -36,33 +36,36 @@
               <a class="nav-link" href="#" data-toggle="modal" data-target="#about_modal">About</a>
             </li>
 
-
-
-            <li class="nav-item dropdown active">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Tables
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% static 'summaries/tables/Male Mean Formants.csv' %}" >Male Mean Formants</a>
-                <a class="dropdown-item" href="{% static 'summaries/tables/Female Mean Formants.csv' %}">Female Mean Formants</a>
-              </div>
-            </li>
             <li class="nav-item dropdown active">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 Graphs
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Availability of Recordings by Phonetician.jpg' %}" target="_blank">Availability of Recordings by Phonetician</a>
                 <a class="dropdown-item" href="{% static 'summaries/graphs/Male Primary-Secondary Cardinal Vowels.jpg' %}" target="_blank">Male Primary-Secondary</a>
                 <a class="dropdown-item" href="{% static 'summaries/graphs/Male Inner Cardinal Vowels.jpg' %}" target="_blank">Male Inner</a>
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Male Unrounded in Vowel Diagram.jpg' %}" target="_blank">Male Unrounded in Vowel Diagram</a>
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Male Rounded in Vowel Diagram.jpg' %}" target="_blank">Male Rounded in Vowel Diagram</a>
                 <a class="dropdown-item" href="{% static 'summaries/graphs/Female Primary-Secondary Cardinal Vowels.jpg' %}" target="_blank">Female Primary-Secondary</a>
                 <a class="dropdown-item" href="{% static 'summaries/graphs/Female Inner Cardinal Vowels.jpg' %}" target="_blank">Female Inner</a>
-
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Female Unrounded in Vowel Diagram.jpg' %}" target="_blank">Female Unrounded in Vowel Diagram</a>
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Female Rounded in Vowel Diagram.jpg' %}" target="_blank">Female Rounded in Vowel Diagram</a>
+                <a class="dropdown-item" href="{% static 'summaries/graphs/Formant Merger Areas.jpg' %}" target="_blank">Formant Merger Areas</a>
               </div>
             </li>
-
-
+            <li class="nav-item dropdown active">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Tables
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% static 'summaries/tables/Website Sources for the Recordings.ods' %}" >Website Sources for the Recordings</a>
+                <a class="dropdown-item" href="{% static 'summaries/tables/All Measurements.csv' %}">All Measurements</a>
+                <a class="dropdown-item" href="{% static 'summaries/tables/Male Mean Formants.csv' %}" >Male Mean Formants</a>
+                <a class="dropdown-item" href="{% static 'summaries/tables/Female Mean Formants.csv' %}">Female Mean Formants</a>
+              </div>
+            </li>
 
             <li class="nav-item active">
               <a class="nav-link" href="#" data-toggle="modal" data-target="#contact_modal">Contact</a>
@@ -84,7 +87,7 @@
           </div>
           <div class="modal-body">
             <p>Formants Guide</p>
-            <p>Ver. 1.3</p>
+            <p>Ver. 1.4</p>
             <p>March 2024</p>
           </div>
         </div>
@@ -100,8 +103,9 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>Łukasz Stolarski</p>
-            <p>lukasz.stolarski@ujk.edu.pl</p>
+            <p>Contact information will be provided after the review process has ended.</p>
+            {% comment %} <p>Łukasz Stolarski</p>
+            <p>lukasz.stolarski@ujk.edu.pl</p> {% endcomment %}
           </div>
         </div>
       </div>
