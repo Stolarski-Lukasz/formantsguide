@@ -7,7 +7,8 @@ import app_databasecreation.my_read_files as my
 # settings
 databasepopulation_data_folder = "app_databasecreation/databasecreation_data/"
 databasepopulation_data_folder_len = len(databasepopulation_data_folder)
-data = pd.read_csv(databasepopulation_data_folder + "allphoneticians 7.csv")
+data = pd.read_csv(databasepopulation_data_folder + "allphoneticians 8.csv")
+print("janes")
 print(data.head())
 
 
